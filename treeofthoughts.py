@@ -13,7 +13,6 @@ class AbstractLanguageModel(ABC):
 
 class CustomLanguageModel(AbstractLanguageModel):
     def __init__(self, model):
-        self.model = model
 
     def generate_thoughts(self, state, k):
         #implement the thought generation logic using self.model
@@ -43,7 +42,6 @@ class OpenAILanguageModel(AbstractLanguageModel):
                 temperature=0.5,
             )
             thoughts = [choice.text.strip() for choice in response.choices]
-            print(thoughts)
         
         elif self.strategy == 'propose':
             prompt = f"{state_text} [Propose {k} thoughts]"
@@ -73,7 +71,6 @@ class OpenAILanguageModel(AbstractLanguageModel):
                 prompt = f"{state_text} [Value]"
                 response = openai.Completion.create(
                     engine="text-davinci-003",
-                    prompt=prompt,
                     n=1,
                     max_tokens=10,
                     stop=None,
